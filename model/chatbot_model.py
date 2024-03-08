@@ -1,4 +1,4 @@
 class ChatbotModel:
-    def __init__(self, product, answer):
+    def __init__(self, product, specifications):
         self.product = product
-        self.answer = answer
+        self.specifications = specifications

@@ -12,7 +12,6 @@ database_url = os.getenv('DATABASE_URL')
 
 connection_string = 'mongodb+srv://{0}:{1}@{2}/?retryWrites=true&w=majority'.format(username, password, database_url)
 
-
 def create_mongo_client():
     client = MongoClient(connection_string)
     database_name = "Huawei"
