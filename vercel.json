@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "app.py"
+      "dest": "/controller/chatbot_controller.py"
     }
   ]
 }
