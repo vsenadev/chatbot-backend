@@ -1,3 +1,20 @@
 {
+<<<<<<< HEAD
   "rewrites": [{ "source": "/(.*)", "destination": "app" }]
 }
+=======
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/controller/chatbot_controller.py"
+    }
+  ]
+}
+>>>>>>> c697a9056cafbb72a1f78d4812953a5ce1e13265
