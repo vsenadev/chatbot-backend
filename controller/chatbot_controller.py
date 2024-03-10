@@ -33,4 +33,27 @@ class ChatbotController:
     def get_products():
         response, status_code = ChatbotService().get_products()
 
-        return response, status_code            
+        return response, status_code
+
+
+    @routes_bp.route('/api/v1/chatbot/<string:product_name>', methods=['GET'])
+    def get_product_specifications(product_name):
+        response, status_code = ChatbotService().get_product_specifications(product_name)
+
+        return response, status_code
+
+    @routes_bp.route('/api/v1/chatbot/question', methods=['PATCH'])
+    def get_product_specifications_with_select():
+        if request.is_json:
+            question = request.get_json()
+            response, status_code = ChatbotService().get_question_specification(question['product_name'], question['question'])
+
+            return response, status_code
+
+    @routes_bp.route('/api/v1/chatbot/message', methods=['PATCH'])
+    def get_product_specifications_with_message():
+        if request.is_json:
+            question = request.get_json()
+            response, status_code = ChatbotService().get_specification_with_message(question['question'])
+
+            return response, status_code        

@@ -50,3 +50,10 @@ class ChatbotRepository:
             return response
         except Exception as e:
             return e
+
+    def get_product_specifications(self, product_name):
+        try:
+            response = list(self.chatbot_collection.find({'product': product_name}, {'_id': 0, 'product': 0}))
+            return response
+        except Exception as e:
+            return e       
