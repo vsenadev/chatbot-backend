@@ -9,51 +9,48 @@ class ChatbotRepository:
         self.chatbot_collection = self.db['chatbot']
         self.product_collection = self.db['product']
 
-    def get_product_with_name(self, name):
+    def _execute_query(self, collection, query, projection=None):
         try:
-            response = self.product_collection.find_one({"name": name})
-            return response
+            if projection is None:
+                return collection.find(query)
+            else:
+                return collection.find(query, projection)
         except Exception as e:
-            return e
+            raise e
 
+    def _execute_insert(self, collection, data):
+        try:
+            return collection.insert_one(data)
+        except Exception as e:
+            raise e
+
+    def _execute_update(self, collection, query, update):
+        try:
+            return collection.update_one(query, {'$set': update})
+        except Exception as e:
+            raise e
+
+    def get_product_with_name(self, name):
+        query = {"name": name}
+        return self._execute_query(self.product_collection, query)
 
     def create_product(self, name, type_product):
-        try:
-            new_product = ProductModel(name, type_product)
-            response = self.product_collection.insert_one(new_product.__dict__)
-            return response
-        except Exception as e:
-            return e
+        new_product = ProductModel(name, type_product)
+        return self._execute_insert(self.product_collection, new_product.__dict__)
 
     def create_chatbot(self, product, specifications):
-        try:
-            new_chatbot = ChatbotModel(product, specifications)
-            response = self.chatbot_collection.insert_one(new_chatbot.__dict__)
-            return response
-        except Exception as e:
-            return e
+        new_chatbot = ChatbotModel(product, specifications)
+        return self._execute_insert(self.chatbot_collection, new_chatbot.__dict__)
 
     def update_chatbot(self, product, specifications):
-        try:
-            response = self.chatbot_collection.update_one(
-                {'product': product},  
-                {'$set': {'specifications': specifications}}
-            )
-            return response
-        except Exception as e:
-            return e
+        query = {'product': product}
+        update = {'specifications': specifications}
+        return self._execute_update(self.chatbot_collection, query, update)
 
     def get_products(self):
-        try:
-            response = list(self.product_collection.find({}, {'_id': 0}))
-
-            return response
-        except Exception as e:
-            return e
+        return list(self._execute_query(self.product_collection, {}, {'_id': 0}))
 
     def get_product_specifications(self, product_name):
-        try:
-            response = list(self.chatbot_collection.find({'product': product_name}, {'_id': 0, 'product': 0}))
-            return response
-        except Exception as e:
-            return e       
+        query = {'product': product_name}
+        projection = {'_id': 0, 'product': 0}
+        return self._execute_query(self.chatbot_collection, query, projection)
