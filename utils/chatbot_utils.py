@@ -53,7 +53,6 @@ class ChatbotUtils:
 
     def find_product(self, products, question):
         names_list = []
-        max_similarity = 0
         similar_product = None
 
         for element in products:
@@ -62,7 +61,7 @@ class ChatbotUtils:
         for product in names_list:
             similarity = SequenceMatcher(None, question.lower(), product.lower()).ratio()
 
-            if similarity > 0.4:
+            if similarity > 0.35:
                 similar_product = product
 
         return similar_product

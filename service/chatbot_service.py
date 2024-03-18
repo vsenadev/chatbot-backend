@@ -71,7 +71,6 @@ class ChatbotService:
 
             get_product_specifications = ChatbotRepository().get_product_specifications(find_product)
 
-            print(get_product_specifications[0]['specifications'], question_specification)
             chatbot_answer = ChatbotUtils().make_question(get_product_specifications[0]['specifications'], question_specification)
 
             return jsonify({'answer': chatbot_answer.split(':')[1]}), 201
